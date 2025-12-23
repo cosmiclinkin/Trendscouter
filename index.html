@@ -3,117 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YT Trend Analyzer | Niche Research</title>
+    <title>Nano Banana Thumbnail Maker</title>
     <script src="https://js.puter.com/v2/"></script>
     <style>
-        :root { --accent: #ff0000; --bg: #f8fafc; --text: #1e293b; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 850px; margin: 40px auto; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
-        h1 { color: var(--accent); text-align: center; font-size: 32px; margin-bottom: 5px; }
-        .sub { text-align: center; color: #64748b; margin-bottom: 35px; font-size: 14px; }
+        :root { --yt: #ff0000; --bg: #0f172a; --card: #1e293b; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: white; padding: 20px; }
+        .container { max-width: 900px; margin: 40px auto; background: var(--card); padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        h1 { color: var(--yt); text-align: center; font-size: 32px; margin-bottom: 5px; }
+        .sub { text-align: center; color: #94a3b8; margin-bottom: 35px; font-size: 14px; }
         
-        label { font-weight: 700; display: block; margin-top: 20px; font-size: 13px; text-transform: uppercase; color: #475569; }
-        select { width: 100%; padding: 15px; margin-top: 8px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px; box-sizing: border-box; background: #fff; cursor: pointer; }
+        label { font-weight: 700; display: block; margin-top: 20px; font-size: 13px; text-transform: uppercase; color: #cbd5e1; }
+        input, select { width: 100%; padding: 15px; margin-top: 8px; border: 2px solid #334155; border-radius: 12px; font-size: 16px; box-sizing: border-box; background: #0f172a; color: white; }
         
-        #result { margin-top: 35px; display: none; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; animation: fadeIn 0.5s ease; }
-        .score-box { background: var(--accent); color: white; padding: 20px; text-align: center; }
-        .score-box span { font-size: 48px; font-weight: 900; display: block; }
-        .analysis-text { padding: 30px; background: #fff; line-height: 1.8; white-space: pre-wrap; color: #1e293b; }
-        
-        .loader { display: none; text-align: center; margin-top: 30px; font-weight: 800; color: var(--accent); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-gen { background: var(--yt); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 25px; transition: 0.3s; }
+        .btn-gen:hover { background: #cc0000; transform: translateY(-2px); }
+        .btn-gen:disabled { background: #475569; cursor: not-allowed; }
+
+        #result-container { margin-top: 35px; text-align: center; display: none; }
+        img { max-width: 100%; border-radius: 15px; border: 4px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .loader { display: none; text-align: center; color: var(--yt); font-weight: 800; margin-top: 20px; }
+        .download-hint { margin-top: 15px; font-size: 12px; color: #94a3b8; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>YouTube Trend Scouter Pro 🚀</h1>
-    <p class="sub">AI-Powered Niche Analysis • December 2025 Trends</p>
-
-    <label>Select Your Channel Niche</label>
-    <select id="nicheSelect" onchange="analyzeTrends()">
-        <option value="" disabled selected>-- Choose a Category --</option>
-        <option value="Tech & Gadget Reviews (iPhone 17, AI Tools, Smart Home)">Tech & Gadgets</option>
-        <option value="Personal Finance & Investing (Stock Market India, Crypto 2026, SIPs)">Finance & Business</option>
-        <option value="Educational (Coding Tutorials, Career Advice, Study Tips)">Education & Skills</option>
-        <option value="Entertainment & Pop Culture (Movie Reviews, Viral Memes, K-Pop)">Entertainment</option>
-        <option value="Health & Fitness (Home Workouts, Mental Health, Diet Plans)">Health & Fitness</option>
-        <option value="Travel Vlogging (Budget Travel India, Solo Trips, Hidden Gems)">Travel & Vlogs</option>
-        <option value="Gaming & Esports (Minecraft, GTA 6 Leaks, Mobile Gaming)">Gaming</option>
-        <option value="Food & Cooking (Indian Recipes, Street Food, Quick Meals)">Food & Cooking</option>
-        <option value="Motivation & Productivity (Life Hacks, Morning Routines, Success Stories)">Motivation</option>
-    </select>
+    <h1>Thumbnail Architect Pro</h1>
+    <p class="sub">Powered by Nano Banana • High-CTR Image Engine</p>
     
-    <div class="loader" id="loader">🔎 SCANNING LIVE TRENDS FOR THIS NICHE...</div>
+    <label>Thumbnail Style</label>
+    <select id="style">
+        <option value="Hyper-realistic, cinematic lighting, 8k resolution">Cinematic / Realism</option>
+        <option value="Vibrant 3D render, C4D style, glowing edges, pop art">3D / Pop Art</option>
+        <option value="Minimalist, clean background, bold colors, studio lighting">Minimalist / Clean</option>
+        <option value="Dark, moody, high suspense, mysterious shadows">Mystery / Dark</option>
+    </select>
 
-    <div id="result">
-        <div class="score-box">
-            TOPIC VIABILITY SCORE
-            <span id="scoreVal">--</span>
-        </div>
-        <div class="analysis-text" id="analysisContent"></div>
+    <label>What is the image about?</label>
+    <input type="text" id="promptInput" placeholder="e.g., A shocked man looking at a flying car in Mumbai">
+
+    <button class="btn-gen" id="genBtn" onclick="generateThumbnail()">GENERATE THUMBNAIL</button>
+    
+    <div class="loader" id="loader">🎨 NANO BANANA IS PAINTING... (15-30 SECONDS)</div>
+    
+    <div id="result-container">
+        <div id="image-output"></div>
+        <p class="download-hint">Right-click the image and select "Save Image As" to download.</p>
     </div>
 </div>
 
 <script>
-    async function analyzeTrends() {
-        const niche = document.getElementById('nicheSelect').value;
-        const out = document.getElementById('analysisContent');
-        const scoreVal = document.getElementById('scoreVal');
-        const resultDiv = document.getElementById('result');
+    async function generateThumbnail() {
+        const userInput = document.getElementById('promptInput').value;
+        const style = document.getElementById('style').value;
         const loader = document.getElementById('loader');
+        const btn = document.getElementById('genBtn');
+        const outputContainer = document.getElementById('image-output');
+        const resultDiv = document.getElementById('result-container');
 
-        if (!niche) return;
+        if (!userInput) return alert("Please describe your thumbnail!");
 
-        // Show loading state
+        // Set Loading State
         loader.style.display = "block";
         resultDiv.style.display = "none";
-        out.innerHTML = "";
+        btn.disabled = true;
+        outputContainer.innerHTML = "";
 
-        const prompt = `Perform an urgent YouTube Market Analysis for the niche: "${niche}". 
-        Current Month: December 2025. 
-        Region: India / Global.
-
-        Identify the top 3 trending topics right now. For each topic:
-        1. Current Interest Level (High/Medium/Low).
-        2. Comparison: Compare it with existing viral videos (e.g., 'Saiyaara' trends, MrBeast dubbing, AI-generated memes like 'Tung Tung Tung Sahur').
-        3. Gap Analysis: What are creators missing?
-        4. Give a "Topic Viability Score" out of 10.
-
-        Return the response starting with the score like this: [SCORE: 9/10] followed by the analysis.`;
+        // Engineering the prompt for best YouTube results
+        const finalPrompt = `YouTube Thumbnail: ${userInput}. Style: ${style}. 
+        Aspect ratio 16:9, high contrast, vivid colors, clear subject, no small text, wide angle, 4k.`;
 
         try {
-            // Using Puter's Gemini 2.0 Flash
-            const response = await puter.ai.chat(prompt, {
-                model: 'gemini-2.0-flash',
-                stream: true
+            // Calling Nano Banana (Gemini 2.5 Flash Image) via Puter.js
+            const imageElement = await puter.ai.txt2img(finalPrompt, {
+                model: 'gemini-2.5-flash-image-preview'
             });
 
+            outputContainer.appendChild(imageElement);
             resultDiv.style.display = "block";
-            let fullText = "";
-            
-            for await (const part of response) {
-                if (part?.text) {
-                    fullText += part.text;
-                    
-                    // Live extraction of the score from the text stream
-                    const scoreMatch = fullText.match(/\[SCORE:\s*(\d+)\/10\]/);
-                    if (scoreMatch) {
-                        scoreVal.innerText = scoreMatch[1];
-                    }
 
-                    // Remove the bracketed score from the main text body and replace newlines
-                    out.innerHTML = fullText.replace(/\[SCORE:.*?\]/, "").trim().replaceAll('\n', '<br>');
-                    
-                    // Auto-scroll for smooth reading
-                    window.scrollTo(0, document.body.scrollHeight);
-                }
-            }
         } catch (e) {
-            out.innerHTML = `<span style="color:red">Error: ${e.message}. Please ensure you are logged into Puter.</span>`;
-            resultDiv.style.display = "block";
+            alert("Error: " + e.message + "\nMake sure you are logged into Puter.");
         } finally {
             loader.style.display = "none";
+            btn.disabled = false;
         }
     }
 </script>
