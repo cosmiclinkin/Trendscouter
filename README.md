@@ -1,0 +1,2 @@
+# Trendscouter
+Trend scout
