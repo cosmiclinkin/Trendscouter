@@ -3,79 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nano Banana Thumbnail Maker</title>
+    <title>Smart Thumbnail Architect</title>
     <script src="https://js.puter.com/v2/"></script>
     <style>
-        :root { --yt: #ff0000; --bg: #0f172a; --card: #1e293b; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: white; padding: 20px; }
+        :root { --yt: #ff0000; --bg: #0f172a; --card: #1e293b; --text-light: #f8fafc; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text-light); padding: 20px; }
         .container { max-width: 900px; margin: 40px auto; background: var(--card); padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
         h1 { color: var(--yt); text-align: center; font-size: 32px; margin-bottom: 5px; }
         .sub { text-align: center; color: #94a3b8; margin-bottom: 35px; font-size: 14px; }
         
         label { font-weight: 700; display: block; margin-top: 20px; font-size: 13px; text-transform: uppercase; color: #cbd5e1; }
-        input, select { width: 100%; padding: 15px; margin-top: 8px; border: 2px solid #334155; border-radius: 12px; font-size: 16px; box-sizing: border-box; background: #0f172a; color: white; }
+        input { width: 100%; padding: 15px; margin-top: 8px; border: 2px solid #334155; border-radius: 12px; font-size: 16px; box-sizing: border-box; background: #0f172a; color: white; }
         
         .btn-gen { background: var(--yt); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 25px; transition: 0.3s; }
         .btn-gen:hover { background: #cc0000; transform: translateY(-2px); }
         .btn-gen:disabled { background: #475569; cursor: not-allowed; }
 
         #result-container { margin-top: 35px; text-align: center; display: none; }
-        img { max-width: 100%; border-radius: 15px; border: 4px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        img { max-width: 100%; height: auto; border-radius: 15px; border: 4px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .loader { display: none; text-align: center; color: var(--yt); font-weight: 800; margin-top: 20px; }
+        .generated-info { background: #334155; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; font-size: 14px; color: #e2e8f0; }
         .download-hint { margin-top: 15px; font-size: 12px; color: #94a3b8; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Thumbnail Architect Pro</h1>
-    <p class="sub">Powered by Nano Banana • High-CTR Image Engine</p>
+    <h1>Smart Thumbnail Architect</h1>
+    <p class="sub">Gemini (Info) + Nano Banana (Image) • Landscape & High CTR</p>
     
-    <label>Thumbnail Style</label>
-    <select id="style">
-        <option value="Hyper-realistic, cinematic lighting, 8k resolution">Cinematic / Realism</option>
-        <option value="Vibrant 3D render, C4D style, glowing edges, pop art">3D / Pop Art</option>
-        <option value="Minimalist, clean background, bold colors, studio lighting">Minimalist / Clean</option>
-        <option value="Dark, moody, high suspense, mysterious shadows">Mystery / Dark</option>
-    </select>
+    <label>Describe your YouTube video topic</label>
+    <input type="text" id="topicInput" placeholder="e.g., How to make $1000 with AI in 2026">
 
-    <label>What is the image about?</label>
-    <input type="text" id="promptInput" placeholder="e.g., A shocked man looking at a flying car in Mumbai">
-
-    <button class="btn-gen" id="genBtn" onclick="generateThumbnail()">GENERATE THUMBNAIL</button>
+    <button class="btn-gen" id="genBtn" onclick="generateThumbnail()">GENERATE SMART THUMBNAIL</button>
     
-    <div class="loader" id="loader">🎨 NANO BANANA IS PAINTING... (15-30 SECONDS)</div>
+    <div class="loader" id="loader">🧠 AI IS BRAINSTORMING VISUALS & NANO BANANA IS PAINTING...</div>
     
     <div id="result-container">
         <div id="image-output"></div>
-        <p class="download-hint">Right-click the image and select "Save Image As" to download.</p>
+        <div class="generated-info" id="generatedInfo"></div>
+        <p class="download-hint">Right-click the image to save. The suggested text is for your title overlay.</p>
     </div>
 </div>
 
 <script>
     async function generateThumbnail() {
-        const userInput = document.getElementById('promptInput').value;
-        const style = document.getElementById('style').value;
+        const topic = document.getElementById('topicInput').value;
         const loader = document.getElementById('loader');
         const btn = document.getElementById('genBtn');
         const outputContainer = document.getElementById('image-output');
+        const generatedInfoDiv = document.getElementById('generatedInfo');
         const resultDiv = document.getElementById('result-container');
 
-        if (!userInput) return alert("Please describe your thumbnail!");
+        if (!topic) return alert("Please describe your YouTube video topic!");
 
         // Set Loading State
         loader.style.display = "block";
         resultDiv.style.display = "none";
         btn.disabled = true;
         outputContainer.innerHTML = "";
-
-        // Engineering the prompt for best YouTube results
-        const finalPrompt = `YouTube Thumbnail: ${userInput}. Style: ${style}. 
-        Aspect ratio 16:9, high contrast, vivid colors, clear subject, no small text, wide angle, 4k.`;
+        generatedInfoDiv.innerHTML = "";
 
         try {
-            // Calling Nano Banana (Gemini 2.5 Flash Image) via Puter.js
-            const imageElement = await puter.ai.txt2img(finalPrompt, {
+            // STEP 1: Use Gemini (Chat Model) to get smart thumbnail concepts and text
+            loader.innerText = "🧠 Gemini is brainstorming best visual concepts & text overlays...";
+            const chatPrompt = `Act as a YouTube thumbnail expert. For the video topic: "${topic}", suggest:
+            1. A highly engaging visual concept (description for an image AI).
+            2. A short, click-bait text overlay for the thumbnail.
+            3. A short explanation of why this concept works.
+
+            FORMAT:
+            VISUAL CONCEPT: [Your detailed visual description here, e.g., "A shocked Indian man pointing at a glowing smartphone..."]
+            TEXT OVERLAY: [Short, impactful text, e.g., "$1000 with AI?"]
+            EXPLANATION: [Brief reason for effectiveness]`;
+
+            const chatResponse = await puter.ai.chat(chatPrompt, {
+                model: 'gemini-2.0-flash'
+            });
+
+            const aiAnalysis = chatResponse.text;
+            const visualConceptMatch = aiAnalysis.match(/VISUAL CONCEPT:\s*(.*?)\n/i);
+            const textOverlayMatch = aiAnalysis.match(/TEXT OVERLAY:\s*(.*?)\n/i);
+            const explanationMatch = aiAnalysis.match(/EXPLANATION:\s*(.*)/i);
+
+            const visualConcept = visualConceptMatch ? visualConceptMatch[1].trim() : "A highly engaging visual for " + topic;
+            const textOverlay = textOverlayMatch ? textOverlayMatch[1].trim() : "TOPIC REVEALED!";
+            const explanation = explanationMatch ? explanationMatch[1].trim() : "AI suggested concepts.";
+
+            generatedInfoDiv.innerHTML = `
+                <p><b>AI Suggested Visual Concept:</b> ${visualConcept}</p>
+                <p><b>AI Suggested Text Overlay:</b> "${textOverlay}"</p>
+                <p><b>Explanation:</b> ${explanation}</p>
+            `;
+
+            // STEP 2: Use Nano Banana (Image Model) to generate the image based on Gemini's concept
+            loader.innerText = "🎨 Nano Banana is painting your high-CTR thumbnail (16:9 landscape)...";
+            const imagePrompt = `YouTube Thumbnail: ${visualConcept}. Style: Hyper-realistic, cinematic lighting, dramatic, high contrast, vivid colors, clear subject, no small text, wide angle, 4k resolution. Aspect ratio 16:9.`;
+
+            const imageElement = await puter.ai.txt2img(imagePrompt, {
                 model: 'gemini-2.5-flash-image-preview'
             });
 
@@ -83,7 +108,7 @@
             resultDiv.style.display = "block";
 
         } catch (e) {
-            alert("Error: " + e.message + "\nMake sure you are logged into Puter.");
+            alert("Error: " + e.message + "\nMake sure you are logged into Puter with credits.");
         } finally {
             loader.style.display = "none";
             btn.disabled = false;
@@ -93,3 +118,4 @@
 
 </body>
 </html>
+
